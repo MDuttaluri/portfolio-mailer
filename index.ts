@@ -39,4 +39,4 @@ expressApp.get('/', async function (req: any, res : any) {
       
   })
   
-expressApp.listen(4999)
+expressApp.listen(process.env.PORT || 4999)
