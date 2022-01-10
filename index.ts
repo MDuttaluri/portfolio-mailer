@@ -4,9 +4,7 @@ const sgMail = require('@sendgrid/mail')
 
 const cors = require('cors');
 const corsOptions = {
-    exposedHeaders: 'auth-token',
-    allowedHeaders: ['Content-Type','auth-token'],
-    origin:'https://manyuduttaluri.web.app'
+    origin:'https://manyuduttaluri.web.app/'
     //origin:'http://localhost:3000'
 }
 
@@ -14,8 +12,9 @@ require('dotenv').config()
 sgMail.setApiKey(process.env.SENDGRID_API_KEY) 
 
 
-const expressApp  = new express(cors(corsOptions))
+const expressApp  = new express()
 
+expressApp.use(cors({...corsOptions}))
 
 expressApp.get('/', async function (req: any, res : any) {
     const time =moment().utcOffset("+05:30").format()
