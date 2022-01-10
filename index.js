@@ -16,7 +16,8 @@ const expressApp  = new express()
 
 expressApp.use(cors({...corsOptions}))
 
-expressApp.get('/', async function (req: any, res : any) {
+expressApp.get('/', async function (req, res) {
+  res.header("Access-Control-Allow-Origin", "*");
     const time =moment().utcOffset("+05:30").format()
     const message =  {
         to: process.env.REC_MAIL,
@@ -27,10 +28,10 @@ expressApp.get('/', async function (req: any, res : any) {
        
       }
     
-      sgMail.send(message).then((data : any)=>{
+      sgMail.send(message).then((data )=>{
         res.status(200).send("Done")
       })
-      .catch((err : any)=>{
+      .catch((err)=>{
           console.log(err);
           
           res.status(200).send("Some error.")
