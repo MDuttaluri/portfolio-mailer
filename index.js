@@ -6,6 +6,7 @@ const cors = require('cors');
 const corsOptions = {
     origin:'https://manyuduttaluri.web.app/'
     //origin:'http://localhost:3000'
+    //origin: '*'
 }
 
 require('dotenv').config()
@@ -17,15 +18,15 @@ const expressApp  = new express()
 expressApp.use(cors({...corsOptions}))
 
 expressApp.get('/', async function (req, res) {
-  res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");
     const time =moment().utcOffset("+05:30").format()
     const message =  {
         to: process.env.REC_MAIL,
         from: process.env.SENDER_MAIL,
         subject: "Portfolio visited!", // Subject line
         name : "Portfolio Monitor",
-        html: `<h1>Portfolio Visited!</h1><p>Someone visited the portfolio site just now.</p><p>Time stamp : ${time}. </p><p>Raw time stamp : ${moment().format()}</p> <p>Visitor's IP address : ${req.ip}</p><p>Visit <a href='https://console.firebase.google.com/u/0/'>Google Dashboard</a></p>`, // html body
-       
+        html: `<h1>Portfolio Visited!</h1><p>Someone visited the portfolio site just now.</p><p>Time stamp : ${time}. </p><p>Raw time stamp : ${moment().format()}</p> <p>Visitor's IP address : ${req.query.reqip}</p><p>Visit <a href='https://console.firebase.google.com/u/0/'>Google Dashboard</a></p>`, // html body
+
       }
     
       sgMail.send(message).then((data )=>{
@@ -62,7 +63,5 @@ expressApp.get('/', async function (req, res) {
         
     })
     
-
-
 
 expressApp.listen(process.env.PORT || 4999)
